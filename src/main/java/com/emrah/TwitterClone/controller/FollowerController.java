@@ -13,7 +13,8 @@ public class FollowerController {
     private FollowerService followService;
 
     @PostMapping("add")
-    public ResponseEntity<Boolean> add(@RequestParam (name = "id") int id, @RequestParam (name = "userId") int userId){
-        return new ResponseEntity<>(followService.add(id,userId),HttpStatus.OK);
+    public ResponseEntity addOrUnf(@RequestParam (name = "user") String userName, @RequestParam (name = "follow user") String followName){
+        followService.addOrUnf(userName,followName);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

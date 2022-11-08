@@ -6,10 +6,9 @@ import com.emrah.TwitterClone.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -20,5 +19,14 @@ public class CommentController {
     @PostMapping("add")
     public ResponseEntity<CommentResponseDto> add(@RequestBody AddCommentRequestDto addCommentRequestDto) {
         return new ResponseEntity<>(commentService.add(addCommentRequestDto), HttpStatus.OK);
+    }
+    @DeleteMapping("delete")
+    public ResponseEntity<String> delete(@RequestParam (name = "id") int commentId){
+        return new ResponseEntity(commentService.delete(commentId), HttpStatus.OK);
+    }
+
+    @GetMapping("getAll")
+    public ResponseEntity<List<CommentResponseDto>> getAll(){
+        return new ResponseEntity<>(commentService.getAll(), HttpStatus.OK);
     }
 }

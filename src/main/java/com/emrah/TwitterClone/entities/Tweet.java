@@ -26,9 +26,11 @@ public class Tweet {
     private LocalDate tweetCreateDate;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "tweet")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "tweet",cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     private List<Comment> comment;
+
+
 }
