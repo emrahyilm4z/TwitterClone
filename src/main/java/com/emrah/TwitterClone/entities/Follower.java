@@ -1,9 +1,10 @@
 package com.emrah.TwitterClone.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,9 +19,7 @@ import java.util.Set;
 public class Follower {
     @Id
     private int id;
-
     private String userName;
-
     @JsonManagedReference
     @ManyToMany(mappedBy = "followers",fetch = FetchType.LAZY,  cascade = {CascadeType.MERGE})
     private Set<User> users = new HashSet<>();

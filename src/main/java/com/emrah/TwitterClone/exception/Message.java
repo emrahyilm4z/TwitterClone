@@ -6,6 +6,6 @@ public class Message {
     public static String NOT_FOUND_COMMENT_ID = "NOT FOUND COMMENT ID";
     public static String SUCCESFULY_DELETED = "SUCCESFULY DELETED";
     public static String SOMETHING_WENT_WRONG = "SOMETHİNG WENT WRONG";
-
-
+    public static String CANT_UPDATE_TWEET = "CANT UPDATE TWEET NOW";
+    public static String SUCCESFULY_UPDATED = "SUCCESFULY UPDATED";
 }

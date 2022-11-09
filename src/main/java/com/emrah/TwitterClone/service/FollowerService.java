@@ -9,14 +9,10 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 @AllArgsConstructor
 public class FollowerService {
-    private UserService userService;
     private UserRepository userRepository;
-    private FollowerRepository followerRepository;
     private ModelMapper modelMapper;
 
     public void addOrUnf(String userName, String followName) {
@@ -27,9 +23,6 @@ public class FollowerService {
             user.unFollower(follower1);
         }else{
             user.addFollower(follower);
-        }
-        for (Follower userFollower : user.getFollowers()) {
-            System.err.println(userFollower.getUserName());
         }
         userRepository.saveAndFlush(user);
     }

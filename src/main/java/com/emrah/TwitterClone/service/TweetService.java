@@ -1,8 +1,8 @@
 package com.emrah.TwitterClone.service;
 
 import com.emrah.TwitterClone.dto.request.AddTweetRequestDto;
+import com.emrah.TwitterClone.dto.request.UpdateTweetRequestDto;
 import com.emrah.TwitterClone.dto.response.TweetResponseDto;
-import com.emrah.TwitterClone.entities.Comment;
 import com.emrah.TwitterClone.entities.Tweet;
 import com.emrah.TwitterClone.exception.Message;
 import com.emrah.TwitterClone.exception.NotFoundTweetID;
@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,7 +23,6 @@ public class TweetService {
 
     public TweetResponseDto add(AddTweetRequestDto addTweetRequestDto) {
         Tweet tweet = modelMapper.map(addTweetRequestDto, Tweet.class);
-        tweet.setTweetCreateDate(LocalDate.now());
         tweet.setUser(userService.findById(addTweetRequestDto.getUser_id()));
         tweetRepository.save(tweet);
         return modelMapper.map(tweet, TweetResponseDto.class);
@@ -40,5 +39,16 @@ public class TweetService {
     public String deleteTweet(int tweetId) {
         tweetRepository.deleteById(tweetId);
         return !tweetRepository.existsById(tweetId) ? Message.SUCCESFULY_DELETED : Message.SOMETHING_WENT_WRONG;
+    }
+
+    public String update(UpdateTweetRequestDto updateTweetRequestDto) {
+        Tweet tweet = tweetRepository.findById(updateTweetRequestDto.getTweetId()).orElseThrow(NotFoundTweetID::new);
+        if (tweet.getTweetCreateDate().plusMinutes(60).isAfter(LocalDateTime.now())) {
+            tweet.setTweetBody(updateTweetRequestDto.getTweetBody());
+            tweetRepository.save(tweet);
+        } else {
+            return Message.CANT_UPDATE_TWEET;
+        }
+        return Message.SUCCESFULY_UPDATED;
     }
 }
