@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AddTweetRequestDto {
-    private int user_id;
+    private int userId;
+    private int parent;
     private String tweetBody;
 }

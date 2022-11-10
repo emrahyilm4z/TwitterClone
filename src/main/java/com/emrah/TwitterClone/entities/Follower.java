@@ -21,7 +21,7 @@ public class Follower {
     private int id;
     private String userName;
     @JsonManagedReference
-    @ManyToMany(mappedBy = "followers",fetch = FetchType.LAZY,  cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "followers", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     private Set<User> users = new HashSet<>();
 
 

@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("like")
 public class LikesController {
-
     private LikeService likeService;
 
     @PostMapping
-    public ResponseEntity like(@RequestBody LikeRequestDto likeRequestDto){
+    public ResponseEntity like(@RequestBody LikeRequestDto likeRequestDto) {
         likeService.like(likeRequestDto);
         return new ResponseEntity(HttpStatus.OK);
     }

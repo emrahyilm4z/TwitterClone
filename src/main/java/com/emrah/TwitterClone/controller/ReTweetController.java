@@ -18,7 +18,7 @@ public class ReTweetController {
     private RetweetService retweetService;
 
     @PostMapping
-    public ResponseEntity reTweet(@RequestBody ReTweetRequestDto reTweetRequestDto){
+    public ResponseEntity reTweet(@RequestBody ReTweetRequestDto reTweetRequestDto) {
         retweetService.reTweet(reTweetRequestDto);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -22,18 +22,16 @@ public class TweetService {
     private ModelMapper modelMapper;
 
     public TweetResponseDto add(AddTweetRequestDto addTweetRequestDto) {
-        Tweet tweet = modelMapper.map(addTweetRequestDto, Tweet.class);
-        tweet.setUser(userService.findById(addTweetRequestDto.getUser_id()));
+        Tweet tweet = new Tweet();
+        tweet.setParent(addTweetRequestDto.getParent());
+        tweet.setTweetBody(addTweetRequestDto.getTweetBody());
+        tweet.setUser(userService.findById(addTweetRequestDto.getUserId()));
         tweetRepository.save(tweet);
         return modelMapper.map(tweet, TweetResponseDto.class);
     }
 
     public Tweet findById(int id) {
         return tweetRepository.findById(id).orElseThrow(NotFoundTweetID::new);
-    }
-
-    public List<TweetResponseDto> getAll() {
-        return tweetRepository.findAll().stream().map(item -> modelMapper.map(item, TweetResponseDto.class)).toList();
     }
 
     public String deleteTweet(int tweetId) {
@@ -50,5 +48,13 @@ public class TweetService {
             return Message.CANT_UPDATE_TWEET;
         }
         return Message.SUCCESFULY_UPDATED;
+    }
+
+    public List<TweetResponseDto> getAllCommentOfTweetByTweetId(int tweetId) {
+        return tweetRepository.findAll().stream().filter(item -> item.getParent() == tweetId).map(item -> modelMapper.map(item, TweetResponseDto.class)).toList();
+    }
+
+    public List<Tweet> findAll() {
+        return tweetRepository.findAll();
     }
 }

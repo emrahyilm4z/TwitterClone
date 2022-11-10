@@ -1,11 +1,13 @@
 package com.emrah.TwitterClone.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -24,8 +27,7 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @NotNull
-    @Column(name = "userName")
+    @Column(name = "userName", unique = true)
     private String userName;
 
     @Column(name = "name")
@@ -41,33 +43,36 @@ public class User {
     private LocalDate birthDay;
 
     @Column(name = "createDate")
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime userCreateDate;
 
     @ElementCollection
-    private List<Integer> likes = new ArrayList<>();
+    private Map<Integer, LocalDateTime> likes = new HashMap<Integer, LocalDateTime>();
 
-    public void like(int tweetId){
-        likes.add(tweetId);
+    public void like(int tweetId, LocalDateTime localDateTime) {
+        likes.put(tweetId, localDateTime);
     }
-    public void noLike(int tweetId){
+
+    public void noLike(int tweetId) {
         likes.remove(tweetId);
     }
 
     @ElementCollection
     private Map<Integer, LocalDateTime> reTweets = new HashMap<Integer, LocalDateTime>();
-    public void reTweet(int tweetId, LocalDateTime localDateTime){
+
+    public void reTweet(int tweetId, LocalDateTime localDateTime) {
         reTweets.put(tweetId, localDateTime);
     }
-    public void undoReTweet(int tweetId){
+
+    public void undoReTweet(int tweetId) {
         reTweets.remove(tweetId);
     }
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Tweet> tweets;
 
-    @ManyToMany(fetch = FetchType.LAZY,  cascade = {CascadeType.MERGE} )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "followedUsers",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -76,9 +81,11 @@ public class User {
     @JsonManagedReference
     private Set<Follower> followers = new HashSet<>();
 
-    public void addFollower(Follower follower){
+    public void addFollower(Follower follower) {
         followers.add(follower);
     }
-    public void unFollower(Follower follower){
-        followers.remove(follower);}
+
+    public void unFollower(Follower follower) {
+        followers.remove(follower);
+    }
 }

@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping("tweet")
@@ -20,11 +18,6 @@ public class TweetsController {
     @PostMapping("add")
     public ResponseEntity<TweetResponseDto> add(@RequestBody AddTweetRequestDto addTweetRequestDto) {
         return new ResponseEntity<>(tweetService.add(addTweetRequestDto), HttpStatus.OK);
-    }
-
-    @GetMapping("getAll")
-    public ResponseEntity<List<TweetResponseDto>> getAll() {
-        return new ResponseEntity<>(tweetService.getAll(), HttpStatus.OK);
     }
 
     @DeleteMapping("deleteTweet")

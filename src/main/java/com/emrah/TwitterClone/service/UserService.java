@@ -1,6 +1,8 @@
 package com.emrah.TwitterClone.service;
 
 import com.emrah.TwitterClone.dto.request.AddUserRequestDto;
+import com.emrah.TwitterClone.dto.request.UpdateUserRequestDto;
+import com.emrah.TwitterClone.dto.response.AddUserResponseDto;
 import com.emrah.TwitterClone.dto.response.UserResponseDto;
 import com.emrah.TwitterClone.entities.User;
 import com.emrah.TwitterClone.exception.Message;
@@ -23,14 +25,15 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(NotFoundUserId::new);
     }
 
-    public UserResponseDto add(AddUserRequestDto addUserRequestDto) {
+    public AddUserResponseDto add(AddUserRequestDto addUserRequestDto) {
         User user = modelMapper.map(addUserRequestDto, User.class);
         userRepository.save(user);
-        return modelMapper.map(user, UserResponseDto.class);
+        return modelMapper.map(user, AddUserResponseDto.class);
     }
 
     public String deleteUser(int id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id).orElseThrow(NotFoundUserId::new);
+        userRepository.delete(user);
         return !userRepository.existsById(id) ? Message.SUCCESFULY_DELETED : Message.SOMETHING_WENT_WRONG;
     }
 
@@ -40,5 +43,20 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public String updateUser(UpdateUserRequestDto updateUserRequestDto) {
+        User user = userRepository.findById(updateUserRequestDto.getId()).orElseThrow(NotFoundUserId::new);
+        user = modelMapper.map(updateUserRequestDto, User.class);
+        userRepository.save(user);
+        return user.getUserName() + " " + Message.SUCCESFULY_UPDATED;
+    }
+
+    public List<UserResponseDto> getAllUsersReTweetByTweetId(int tweetId) {
+        return userRepository.findAll().stream().filter(item -> item.getReTweets().containsKey(tweetId)).map(item -> modelMapper.map(item, UserResponseDto.class)).toList();
+    }
+
+    public List<UserResponseDto> getAllUsersLikeByTweetId(int tweetId) {
+        return userRepository.findAll().stream().filter(item -> item.getLikes().containsKey(tweetId)).map(item -> modelMapper.map(item, UserResponseDto.class)).toList();
     }
 }
