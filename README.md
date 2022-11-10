@@ -75,5 +75,5 @@ Tweet `ADD`, `DELETE`, `LIKE`, `RETWEET` and `UPDATE`. You can update within an 
 ![TABLE.png](https://github.com/emrahyilm4z/TwitterClone/blob/master/ScreenShots/table.png)
 <hr>
 
-[MIT](https://github.com/emrahyilm4z/ToDoList/blob/master/LICENSE.txt)
+[MIT](https://github.com/emrahyilm4z/TwitterClone/blob/master/LICENSE.txt)
  
