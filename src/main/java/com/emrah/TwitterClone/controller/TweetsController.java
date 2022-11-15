@@ -2,6 +2,7 @@ package com.emrah.TwitterClone.controller;
 
 import com.emrah.TwitterClone.dto.request.AddTweetRequestDto;
 import com.emrah.TwitterClone.dto.request.UpdateTweetRequestDto;
+import com.emrah.TwitterClone.dto.response.TweetDetailsResponseDto;
 import com.emrah.TwitterClone.dto.response.TweetResponseDto;
 import com.emrah.TwitterClone.service.TweetService;
 import lombok.AllArgsConstructor;
@@ -28,5 +29,9 @@ public class TweetsController {
     @PutMapping("update")
     public ResponseEntity<String> update(@RequestBody UpdateTweetRequestDto updateTweetRequestDto) {
         return new ResponseEntity<>(tweetService.update(updateTweetRequestDto), HttpStatus.OK);
+    }
+    @GetMapping("detail")
+    public ResponseEntity<TweetDetailsResponseDto> tweetDetail(@RequestParam(name = "tweetId") int tweetId){
+        return new ResponseEntity<>(tweetService.detail(tweetId),HttpStatus.OK);
     }
 }

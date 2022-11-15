@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping()
 public class HomePageController {
     private HomePageService homePageService;
-
     @GetMapping()
     public ResponseEntity<List<HomePageResponse>> getAll() {
         return new ResponseEntity<>(homePageService.getAll(), HttpStatus.OK);

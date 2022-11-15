@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("like")
 public class LikesController {
     private LikeService likeService;
-
     @PostMapping
     public ResponseEntity like(@RequestBody LikeRequestDto likeRequestDto) {
         likeService.like(likeRequestDto);

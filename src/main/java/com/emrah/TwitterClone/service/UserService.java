@@ -3,6 +3,7 @@ package com.emrah.TwitterClone.service;
 import com.emrah.TwitterClone.dto.request.AddUserRequestDto;
 import com.emrah.TwitterClone.dto.request.UpdateUserRequestDto;
 import com.emrah.TwitterClone.dto.response.AddUserResponseDto;
+import com.emrah.TwitterClone.dto.response.UserDetailsResponseDto;
 import com.emrah.TwitterClone.dto.response.UserResponseDto;
 import com.emrah.TwitterClone.entities.User;
 import com.emrah.TwitterClone.exception.Message;
@@ -58,5 +59,10 @@ public class UserService {
 
     public List<UserResponseDto> getAllUsersLikeByTweetId(int tweetId) {
         return userRepository.findAll().stream().filter(item -> item.getLikes().containsKey(tweetId)).map(item -> modelMapper.map(item, UserResponseDto.class)).toList();
+    }
+
+    public UserDetailsResponseDto userDetails(int id) {
+        User user = userRepository.findById(id).orElseThrow(NotFoundUserId::new);
+        return modelMapper.map(user, UserDetailsResponseDto.class);
     }
 }

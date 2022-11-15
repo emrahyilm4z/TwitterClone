@@ -2,6 +2,7 @@ package com.emrah.TwitterClone.service;
 
 import com.emrah.TwitterClone.dto.request.AddTweetRequestDto;
 import com.emrah.TwitterClone.dto.request.UpdateTweetRequestDto;
+import com.emrah.TwitterClone.dto.response.TweetDetailsResponseDto;
 import com.emrah.TwitterClone.dto.response.TweetResponseDto;
 import com.emrah.TwitterClone.entities.Tweet;
 import com.emrah.TwitterClone.exception.Message;
@@ -56,5 +57,12 @@ public class TweetService {
 
     public List<Tweet> findAll() {
         return tweetRepository.findAll();
+    }
+
+    public TweetDetailsResponseDto detail(int tweetId) {
+        Tweet tweet = tweetRepository.findById(tweetId).orElseThrow(NotFoundTweetID::new);
+        TweetDetailsResponseDto tweetDetailsResponseDto = modelMapper.map(tweet, TweetDetailsResponseDto.class);
+        tweetDetailsResponseDto.setUserName(tweet.getUser().getUserName());
+        return tweetDetailsResponseDto;
     }
 }

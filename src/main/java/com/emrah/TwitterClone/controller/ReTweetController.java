@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("retweet")
 public class ReTweetController {
-
     private RetweetService retweetService;
-
     @PostMapping
     public ResponseEntity reTweet(@RequestBody ReTweetRequestDto reTweetRequestDto) {
         retweetService.reTweet(reTweetRequestDto);

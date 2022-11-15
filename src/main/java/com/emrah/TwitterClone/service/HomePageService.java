@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,10 +18,11 @@ public class HomePageService {
 
     public List<HomePageResponse> getAll() {
         List<Tweet> tweet = tweetService.findAll().stream().filter(item -> item.getParent() == 0).toList();
+        Collections.reverse(tweet);
         List<HomePageResponse> homePageResponses = new ArrayList<>();
         for (Tweet tweet1 : tweet) {
             HomePageResponse homePageResponse = new HomePageResponse();
-            homePageResponse.setTime(tweet1.getTweetCreateDate());
+            homePageResponse.setTime(tweet1.getTweetUpdateDate());
             homePageResponse.setUserName(tweet1.getUser().getUserName());
             homePageResponse.setTweetBody(tweet1.getTweetBody());
             homePageResponse.setReTweetUserName(userService.getAllUsersReTweetByTweetId(tweet1.getTweetId()));

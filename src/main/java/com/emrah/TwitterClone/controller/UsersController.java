@@ -3,6 +3,7 @@ package com.emrah.TwitterClone.controller;
 import com.emrah.TwitterClone.dto.request.AddUserRequestDto;
 import com.emrah.TwitterClone.dto.request.UpdateUserRequestDto;
 import com.emrah.TwitterClone.dto.response.AddUserResponseDto;
+import com.emrah.TwitterClone.dto.response.UserDetailsResponseDto;
 import com.emrah.TwitterClone.dto.response.UserResponseDto;
 import com.emrah.TwitterClone.service.UserService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class UsersController {
         return new ResponseEntity<>(userService.add(addUserRequestDto), HttpStatus.CREATED);
     }
     @DeleteMapping("delete")
-    public ResponseEntity<String> delete(@RequestParam int id){
+    public ResponseEntity<String> delete(@RequestParam(name = "id") int id){
         return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
     }
 
@@ -35,5 +36,9 @@ public class UsersController {
     @PutMapping("update")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserRequestDto updateUserRequestDto){
         return new ResponseEntity<>(userService.updateUser(updateUserRequestDto), HttpStatus.ACCEPTED);
+    }
+    @GetMapping("details")
+    public ResponseEntity<UserDetailsResponseDto> userDetails(@RequestParam(name = "id") int id){
+        return new ResponseEntity<>(userService.userDetails(id) , HttpStatus.OK);
     }
 }
