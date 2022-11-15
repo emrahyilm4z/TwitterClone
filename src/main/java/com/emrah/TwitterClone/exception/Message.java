@@ -7,4 +7,5 @@ public class Message {
     public static String SOMETHING_WENT_WRONG = "SOMETHİNG WENT WRONG";
     public static String CANT_UPDATE_TWEET = "CANT UPDATE TWEET NOW";
     public static String SUCCESFULY_UPDATED = "SUCCESFULY UPDATED";
+    public static String CANT_FOLLOW_YOURSELF = "YOU CANT FOLLOW YOURSELF";
 }
